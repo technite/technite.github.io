@@ -29,6 +29,9 @@ function rewriteFunc(props) {
   if (props.pageview_properties.path) {
     props.pageview_properties.path = props.pageview_properties.path.replace(/(?<=\/account\/app\/(plans)|location\/).*(?=\/settings|\/monitoring|\/edit|\/devices)/g, '#$1');
   }
+ if (props.session_properties.referrer) {
+    props.session_properties.referrer = props.session_properties.referrer.replace(/(?<=\/account\/app\/(plans)|location\/).*(?=\/settings|\/monitoring|\/edit|\/devices)/g, '#$1');
+  }		
   return props;
 }	
 	
