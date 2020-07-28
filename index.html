@@ -26,10 +26,8 @@ Although you can use them, for a more unique website, replace these images with 
 <script type="text/javascript">   
 	
 function rewriteFunc(props) {
-  // If the DOM hierarchy is captured, replace CSS IDs based on a regex to strip the trailing numbers.
-
-  if (props.event_properties.hierarchy) {
-    props.event_properties.hierarchy = props.event_properties.hierarchy;
+  if (props.pageview_properties.path) {
+    props.pageview_properties.path = props.pageview_properties.path.replace(/(?<=\/account\/app\/(plans)|location\/).*(?=\/settings|\/monitoring|\/edit|\/devices)/g, '#$1');
   }
   return props;
 }	
