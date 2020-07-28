@@ -27,10 +27,10 @@ Although you can use them, for a more unique website, replace these images with 
 	
 function rewriteFunc(props) {
   if (props.pageview_properties.path) {
-    props.pageview_properties.path = props.pageview_properties.path.replace(/(?<=\/account\/app\/(plans)|location\/).*(?=\/settings|\/monitoring|\/edit|\/devices)/g, '#$1');
+    props.pageview_properties.path = props.pageview_properties.path.replace(/(?<=\/account\/app\/(plans)|location\/).*(?=\/settings|\/monitoring|\/edit|\/devices)/g, 'REDACT');
   }
  if (props.session_properties.referrer) {
-    props.session_properties.referrer = props.session_properties.referrer.replace(/(?<=\/account\/app\/(plans)|location\/).*(?=\/settings|\/monitoring|\/edit|\/devices)/g, '#$1');
+    props.session_properties.referrer = props.session_properties.referrer.replace(/(?<=\/account\/app\/(plans)|location\/).*(?=\/settings|\/monitoring|\/edit|\/devices)/g, 'REDACT');
   }		
   return props;
 }	
