@@ -27,13 +27,13 @@ Although you can use them, for a more unique website, replace these images with 
 	
 function rewriteFunc(props) {
  if (props.pageview_properties.path) {
-    props.pageview_properties.path = props.pageview_properties.path.replace(/(?<=location\/|devices\/|payment\/).*(?=\/settings|\/monitoring|\/edit|\/devices|\/yearly|\/monthly|\/multicam/g), 'REDACT');
+    props.pageview_properties.path = props.pageview_properties.path.replace(/(?<=location\/|devices\/|payment\/).*(?=\/settings|\/monitoring|\/edit|\/devices|\/yearly|\/monthly|\/multicam)/g, 'REDACT');
   }
  if (props.session_properties.referrer) {
-    props.session_properties.referrer = props.session_properties.referrer.replace(/(?<=location\/|devices\/|payment\/).*(?=\/settings|\/monitoring|\/edit|\/devices|\/yearly|\/monthly|\/multicam/g), 'REDACT');
+    props.session_properties.referrer = props.session_properties.referrer.replace(/(?<=location\/|devices\/|payment\/).*(?=\/settings|\/monitoring|\/edit|\/devices|\/yearly|\/monthly|\/multicam)/g, 'REDACT');
   }
  if (props.pageview_properties.previous_page) {
-    props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(/(?<=location\/|devices\/|payment\/).*(?=\/settings|\/monitoring|\/edit|\/devices|\/yearly|\/monthly|\/multicam/g), 'REDACT');
+    props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(/(?<=location\/|devices\/|payment\/).*(?=\/settings|\/monitoring|\/edit|\/devices|\/yearly|\/monthly|\/multicam)/g, 'REDACT');
   }
 	
 	
