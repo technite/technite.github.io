@@ -38,6 +38,9 @@ if (props.pageview_properties.path) {
  if (props.pageview_properties.previous_page) {
     props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(regex, 'REDACT');
   }
+ if (props.pageview_properties.query) {
+    props.pageview_properties.query = props.pageview_properties.query.replace(regex, 'REDACT');
+  }
 	
 	
 	
