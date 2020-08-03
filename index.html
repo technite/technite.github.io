@@ -27,7 +27,7 @@ Although you can use them, for a more unique website, replace these images with 
 	
 function rewriteFunc(props) {
 
-var regex = /(?<=\/payment|\/devices|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/|deviceId=|locationId=|PayerID=|token=|l=|discount=|location=|devices=|checkout\[email\]=|invitation_token=|code=)(.+?)(?=\/|$|\&)/g;
+var regex = /(?<=\/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/|deviceId=|locationId=|PayerID=|token=|l=|discount=|location=|devices=|checkout\[email\]=|invitation_token=|code=)(.+?)(?=\/|$|\&)/g;
 	
 if (props.pageview_properties.path) {
     props.pageview_properties.path = props.pageview_properties.path.replace(regex, 'REDACT');
