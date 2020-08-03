@@ -28,25 +28,34 @@ Although you can use them, for a more unique website, replace these images with 
 function rewriteFunc(props) {
 
 var regex = /(?<=\/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/|deviceId=|locationId=|PayerID=|token=|l=|discount=|location=|devices=|checkout\[email\]=|invitation_token=|code=)(.+?)(?=\/|$|\&)/g;
-	
-if (props.pageview_properties.path) {
-    props.pageview_properties.path = props.pageview_properties.path.replace(regex, 'REDACT');
-  }
- if (props.session_properties.referrer) {
+
+ <!-- Event Properties -->	
+ if (props.event_properties.href) {
     props.session_properties.referrer = props.session_properties.referrer.replace(regex, 'REDACT');
-  }
+ }	
+ 
+ <!-- Pageview Properties -->
+ if (props.pageview_properties.path) {
+    props.pageview_properties.path = props.pageview_properties.path.replace(regex, 'REDACT');
+ }
  if (props.pageview_properties.previous_page) {
     props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(regex, 'REDACT');
-  }
+ }
  if (props.pageview_properties.query) {
     props.pageview_properties.query = props.pageview_properties.query.replace(regex, 'REDACT');
-  }
+ }	
+  if (props.pageview_properties.hash) {
+    props.pageview_properties.query = props.pageview_properties.query.replace(regex, 'REDACT');
+ }	
 	
-	
-	
-	
-	
-  return props;
+ <!-- Session Properties -->	
+ if (props.session_properties.referrer) {
+    props.session_properties.referrer = props.session_properties.referrer.replace(regex, 'REDACT');
+ }
+ if (props.session_properties.path) {
+    props.session_properties.path = props.session_properties.path.replace(regex, 'REDACT');
+ }
+ return props;
 }	
 	
 window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};   
