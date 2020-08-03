@@ -26,8 +26,8 @@ Although you can use them, for a more unique website, replace these images with 
 <script type="text/javascript">   
 	
 function rewriteFunc(props) {
- 
-var regex = /(?<=location\/|devices\/|payment\/).*(?=\/settings|\/monitoring|\/edit|\/devices|\/yearly|\/monthly|\/multicam)/g;
+
+var regex = /(?<=deviceId=|locationId=|planType=|billingFrequency=|PayerID=|token=|l=|discount=|plan=|provider=|location=|devices=|checkout\[email\]=)(\w)+(?=\&?)/g;
 	
 if (props.pageview_properties.path) {
     props.pageview_properties.path = props.pageview_properties.path.replace(regex, 'REDACT');
