@@ -13,7 +13,10 @@ var redactText = "REDACT";
  //Event Properties
  if (props.event_properties && props.event_properties.href) {
     props.session_properties.href = props.session_properties.href.replace(regex, redactText);
- }	
+ }
+ if (props.event_properties.hierarchy && props.event_properties.hierarchy.toLowerCase().indexOf('[href') > -1) {
+      props.event_properties.hierarchy = props.event_properties.hierarchy.replace(regex, '[href=redacted]');
+  }
  
  //Pageview Properties
  if (props.pageview_properties && props.pageview_properties.path) {
