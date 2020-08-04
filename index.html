@@ -30,12 +30,12 @@ function rewriteFunc(props) {
 var regex = /(?<=\/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/|deviceId=|locationId=|PayerID=|token=|l=|discount=|location=|devices=|checkout\[email\]=|invitation_token=|code=)([A-Za-z0-9_@.-]+?)(?=\/|$|\&)/g;
 var redactText = "REDACT";
 	
- <!-- Event Properties -->	
+ //Event Properties
  if (props.event_properties.href) {
     props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
  }	
  
- <!-- Pageview Properties -->
+ //Pageview Properties
  if (props.pageview_properties.path) {
     props.pageview_properties.path = props.pageview_properties.path.replace(regex, redactText);
  }
@@ -49,7 +49,7 @@ var redactText = "REDACT";
     props.pageview_properties.query = props.pageview_properties.query.replace(regex, redactText);
  }	
 	
- <!-- Session Properties -->	
+ //Session Properties
  if (props.session_properties.referrer) {
     props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
  }
