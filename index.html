@@ -31,30 +31,37 @@ var regex = /(?<=\/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/canc
 var redactText = "REDACT";
 	
  //Event Properties
- if (props.event_properties.href) {
-    props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
+ if (props.event_properties && props.event_properties.href) {
+    props.session_properties.href = props.session_properties.href.replace(regex, redactText);
  }	
  
  //Pageview Properties
- if (props.pageview_properties.path) {
+ if (props.pageview_properties && props.pageview_properties.path) {
     props.pageview_properties.path = props.pageview_properties.path.replace(regex, redactText);
  }
- if (props.pageview_properties.previous_page) {
+ if (props.pageview_properties && props.pageview_properties.hash) {
+    props.pageview_properties.query = props.pageview_properties.query.replace(regex, redactText);
+ }	
+ if (props.pageview_properties && props.pageview_properties.query) {
+    props.pageview_properties.query = props.pageview_properties.query.replace(regex, redactText);
+ }
+ if (props.pageview_properties && props.pageview_properties.previous_page) {
     props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(regex, redactText);
  }
- if (props.pageview_properties.query) {
-    props.pageview_properties.query = props.pageview_properties.query.replace(regex, redactText);
- }	
-  if (props.pageview_properties.hash) {
-    props.pageview_properties.query = props.pageview_properties.query.replace(regex, redactText);
- }	
+
 	
  //Session Properties
- if (props.session_properties.referrer) {
-    props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
- }
- if (props.session_properties.path) {
+ if (props.session_properties && props.session_properties.path) {
     props.session_properties.path = props.session_properties.path.replace(regex, redactText);
+ }
+ if (props.session_properties && props.session_properties.hash) {
+    props.session_properties.hash = props.session_properties.hash.replace(regex, redactText);
+ }
+ if (props.session_properties && props.session_properties.query) {
+    props.session_properties.query = props.session_properties.query.replace(regex, redactText);
+ }
+ if (props.session_properties && props.session_properties.referrer) {
+    props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
  }
  return props;
 }	
