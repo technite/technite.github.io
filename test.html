@@ -54,7 +54,7 @@ heap.load("405057187", {rewrite: rewriteFunc});
 	
 function f1()
     {
-       history.pushState("", "", "/account/app/plans/subscribe/location_id");
+       history.pushState("", "", "/account/purchase/review?locationId=location_id&deviceId=device_id&planType=plus&billingFrequency=monthly");
        //alert("test");
     }
 
@@ -70,7 +70,7 @@ function f1()
 
 	<div class = "Parent">	
 	<div class = "Child">
-  <a href="account.ring.com/account/purchase/review?locationId=location_id&deviceId=device_id&planType=plus&billingFrequency=monthly" onclick="f1()">Test Link</a>
+  <a href="/account/purchase/review?locationId=location_id&deviceId=device_id&planType=plus&billingFrequency=monthly" onclick="f1()">Test Link</a>
 		</div>
 	</div>
  
