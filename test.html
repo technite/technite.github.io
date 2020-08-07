@@ -14,12 +14,15 @@ var redactText = "REDACT";
  	
  // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
  // Obfuscated:  /account/app/location/REDACT/settings/alerts
+ // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
  if (props.event_properties && props.event_properties.href) {
     props.session_properties.href = props.session_properties.href.replace(regex, redactText);
  }
 	
  // Example:     "@div;.Parent;|@div;.Child;|@a;[href=account.ring.com/account/purchase/review?locationId=location_id&deviceId=device_id&planType=plus&billingFrequency=monthly];|"
  // Obfuscated:  "@div;.Parent;|@div;.Child;|@a;[href=account.ring.com/account/purchase/review?locationId=REDACT&deviceId=REDACT&planType=plus&billingFrequency=monthly];|" 	
+ // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
+	
  if (props.event_properties.hierarchy && props.event_properties.hierarchy.toLowerCase().indexOf('[href') > -1) {
       props.event_properties.hierarchy = props.event_properties.hierarchy.replace(regex, redactText);
   }
@@ -28,20 +31,23 @@ var redactText = "REDACT";
 	
  // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
  // Obfuscated:  /account/app/location/REDACT/settings/alerts
+ // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
  if (props.pageview_properties && props.pageview_properties.path) {
     props.pageview_properties.path = props.pageview_properties.path.replace(regex, redactText);
  }
 	
  // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
  // Obfuscated:  /account/app/location/REDACT/settings/alerts	
+ // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
+
  if (props.pageview_properties && props.pageview_properties.hash) {
     props.pageview_properties.query = props.pageview_properties.query.replace(regex, redactText);
  }	
 	
- // Example:    "?locationId=location_id&deviceId=device_ID&planType=plus&billingFrequency=monthly"
- //  Obfuscated: "?locationId=REDACT&deviceId=REDACT&planType=plus&billingFrequency=monthly"	
+ // Example:    ?locationId=location_id&deviceId=device_ID&planType=plus&billingFrequency=monthly
+ // Obfuscated: ?locationId=REDACT&deviceId=REDACT&planType=plus&billingFrequency=monthly
+ // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
  if (props.pageview_properties && props.pageview_properties.query) {
-	 
     props.pageview_properties.query = props.pageview_properties.query.replace(regex, redactText);
  }
 	
@@ -56,24 +62,30 @@ var redactText = "REDACT";
 	
  // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
  // Obfuscated:  /account/app/location/REDACT/settings/alerts		
+ // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
+
  if (props.session_properties && props.session_properties.path) {
     props.session_properties.path = props.session_properties.path.replace(regex, redactText);
  }
 	
  // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
- // Obfuscated:  /account/app/location/REDACT/settings/alerts		
+ // Obfuscated:  /account/app/location/REDACT/settings/alerts	
+ // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
+
  if (props.session_properties && props.session_properties.hash) {
     props.session_properties.hash = props.session_properties.hash.replace(regex, redactText);
  }
 	
  // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
- // Obfuscated:  /account/app/location/REDACT/settings/alerts		
+ // Obfuscated:  /account/app/location/REDACT/settings/alerts
+ // RegEx:       deviceId=|locationId=|PayerID=|token=|l=|discount=|location=|devices=|checkout\[email\]=|invitation_token=|code=	
  if (props.session_properties && props.session_properties.query) {
     props.session_properties.query = props.session_properties.query.replace(regex, redactText);
  }
 
  // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
- // Obfuscated:  /account/app/location/REDACT/settings/alerts		 
+ // Obfuscated:  /account/app/location/REDACT/settings/alerts	
+ // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
  if (props.session_properties && props.session_properties.referrer) {
     props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
  }
