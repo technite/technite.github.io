@@ -7,55 +7,55 @@
 	
 function rewriteFunc(props) {
 	
-	var regex = /(account)\/(plan|app)\/(devices|payment|location|confirmation|plans\/(subscribe|upgrade|cancel|remove))\/([A-Za-z0-9_@.-]+?)(?=\/|$|\&)/;
-	var redactText = "$1/$2/$3/$4" + "REDACT";
-	var queryRedactText = "$1" + "REDACT";
+var regex = /(account)\/(plan|app)\/(devices|payment|location|confirmation|plans\/(subscribe|upgrade|cancel|remove))\/([A-Za-z0-9_@.-]+?)(?=\/|$|\&)/;
+var redactText = "$1/$2/$3/$4" + "REDACT";
+var queryRedactText = "$1" + "REDACT";
+var queryRegex = /(deviceId=|locationId=|PayerID=|token=|l=|discount=|location=|devices=|checkout\[email\]=|invitation_token=|code=)(.+?)(?=\/|$|\&)/g;
 
-	//Regex Group 1
+//Regex Group 1
 
-	 //Event Properties
-	 if (props.event_properties && props.event_properties.href) {
-	    props.event_properties.href = props.event_properties.href.replace(regex, redactText);
-	 }
-	 if (props.event_properties.hierarchy && props.event_properties.hierarchy.toLowerCase().indexOf('[href') > -1) {
-	      props.event_properties.hierarchy = props.event_properties.hierarchy.replace(regex, redactText);
-	  }
+ //Event Properties
+ if (props.event_properties && props.event_properties.href) {
+    props.event_properties.href = props.event_properties.href.replace(regex, redactText);
+    props.event_properties.href = props.event_properties.href.replace(queryRegex, queryRedactText);
+ }
+ if (props.event_properties.hierarchy && props.event_properties.hierarchy.toLowerCase().indexOf('[href') > -1) {
+      props.event_properties.hierarchy = props.event_properties.hierarchy.replace(queryRegex, queryRedactText);
 
-	 //Pageview Properties
-	 if (props.pageview_properties && props.pageview_properties.path) {
-	    props.pageview_properties.path = props.pageview_properties.path.replace(regex, redactText);
-	 }
-	 if (props.pageview_properties && props.pageview_properties.hash) {
-	    props.pageview_properties.hash = props.pageview_properties.hash.replace(regex, redactText);
-	 }
-	 if (props.pageview_properties && props.pageview_properties.previous_page) {
-	    props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(regex, redactText);
-	 }
+  }
 
-	 //Session Properties
-	 if (props.session_properties && props.session_properties.path) {
-	    props.session_properties.path = props.session_properties.path.replace(regex, redactText);
-	 }
-	 if (props.session_properties && props.session_properties.hash) {
-	    props.session_properties.hash = props.session_properties.hash.replace(regex, redactText);
-	 }
-	 if (props.session_properties && props.session_properties.referrer) {
-	    props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
-	 }
+ //Pageview Properties
+ if (props.pageview_properties && props.pageview_properties.path) {
+    props.pageview_properties.path = props.pageview_properties.path.replace(regex, redactText);
+ }
+ if (props.pageview_properties && props.pageview_properties.hash) {
+    props.pageview_properties.hash = props.pageview_properties.hash.replace(regex, redactText);
+ }
+ if (props.pageview_properties && props.pageview_properties.previous_page) {
+    props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(regex, redactText);
+ }
 
-	var queryRegex = /(deviceId=|locationId=|PayerID=|token=|l=|discount=|location=|devices=|checkout\[email\]=|invitation_token=|code=)(.+?)(?=\/|$|\&)/g;
+ //Session Properties
+ if (props.session_properties && props.session_properties.path) {
+    props.session_properties.path = props.session_properties.path.replace(regex, redactText);
+ }
+ if (props.session_properties && props.session_properties.hash) {
+    props.session_properties.hash = props.session_properties.hash.replace(regex, redactText);
+ }
+ if (props.session_properties && props.session_properties.referrer) {
+    props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
+ }
 
-	//Query Regex
-	 if (props.pageview_properties && props.pageview_properties.query) {
-	    props.pageview_properties.query = props.pageview_properties.query.replace(queryRegex, queryRedactText);
-	 }
+//Query Regex
+ if (props.pageview_properties && props.pageview_properties.query) {
+    props.pageview_properties.query = props.pageview_properties.query.replace(queryRegex, queryRedactText);
+ }
 
-	 if (props.session_properties && props.session_properties.query) {
-	    props.session_properties.query = props.session_properties.query.replace(queryRegex, queryRedactText);
-	 }
+ if (props.session_properties && props.session_properties.query) {
+    props.session_properties.query = props.session_properties.query.replace(queryRegex, queryRedactText);
+ }
 
-
-	 return props;
+ return props;
 }	
 	
 window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};   
