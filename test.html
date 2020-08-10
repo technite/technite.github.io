@@ -8,21 +8,20 @@
 function rewriteFunc(props) {
 	
 var regex = /(((account\/)(plan\/|app\/)(devices\/|payment\/|location\/|confirmation\/|plans\/(?:subscribe\/|upgrade\/|cancel\/|remove\/|)))|(cases\/|alerts\/|share\/|user\/viewprofilepage\/user-id\/|orders\/|checkouts\/))([A-Za-z0-9_@.-]+?)(?=\/|$)/;
-var redactText = "$1$2$3$4$5$6" + "REDACT";
-
 var queryRegex = /(deviceId=|locationId=|PayerID=|token=|l=|discount=|location=|devices=|checkout\[email\]=|invitation_token=|code=)(.+?)(?=\/|$|\&)/g;
-var queryRedactText = "$1" + "REDACT";
 
+var redactText = "$1" + "REDACT";
+	
 //Regex Group 1
 
  //Event Properties
  if (props.event_properties && props.event_properties.href) {
     props.event_properties.href = props.event_properties.href.replace(regex, redactText);
-    props.event_properties.href = props.event_properties.href.replace(queryRegex, queryRedactText);
+    props.event_properties.href = props.event_properties.href.replace(queryRegex, redactText);
  }
  if (props.event_properties.hierarchy && props.event_properties.hierarchy.toLowerCase().indexOf('[href') > -1) {
       props.event_properties.hierarchy = props.event_properties.hierarchy.replace(regex, redactText);
-      props.event_properties.hierarchy = props.event_properties.hierarchy.replace(queryRegex, queryRedactText);
+      props.event_properties.hierarchy = props.event_properties.hierarchy.replace(queryRegex, redactText);
   }
 
  //Pageview Properties
@@ -49,11 +48,11 @@ var queryRedactText = "$1" + "REDACT";
 
 //Query Regex
  if (props.pageview_properties && props.pageview_properties.query) {
-    props.pageview_properties.query = props.pageview_properties.query.replace(queryRegex, queryRedactText);
+    props.pageview_properties.query = props.pageview_properties.query.replace(queryRegex, redactText);
  }
 
  if (props.session_properties && props.session_properties.query) {
-    props.session_properties.query = props.session_properties.query.replace(queryRegex, queryRedactText);
+    props.session_properties.query = props.session_properties.query.replace(queryRegex, redactText);
  }
 
  return props;
