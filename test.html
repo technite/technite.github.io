@@ -7,89 +7,53 @@
 	
 function rewriteFunc(props) {
 
-var regex = /(?<=\/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/|deviceId=|locationId=|PayerID=|token=|l=|discount=|location=|devices=|checkout\[email\]=|invitation_token=|code=)([A-Za-z0-9_@.-]+?)(?=\/|$|\&)/g;
-var redactText = "REDACT";
-	
- //Event Properties
- 	
- // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
- // Obfuscated:  /account/app/location/REDACT/settings/alerts
- // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
- if (props.event_properties && props.event_properties.href) {
-    props.session_properties.href = props.session_properties.href.replace(regex, redactText);
- }
-	
- // Example:     "@div;.Parent;|@div;.Child;|@a;[href=account.ring.com/account/purchase/review?locationId=location_id&deviceId=device_id&planType=plus&billingFrequency=monthly];|"
- // Obfuscated:  "@div;.Parent;|@div;.Child;|@a;[href=account.ring.com/account/purchase/review?locationId=REDACT&deviceId=REDACT&planType=plus&billingFrequency=monthly];|" 	
- // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
-	
- if (props.event_properties.hierarchy && props.event_properties.hierarchy.toLowerCase().indexOf('[href') > -1) {
-      props.event_properties.hierarchy = props.event_properties.hierarchy.replace(regex, redactText);
-  }
- 
- //Pageview Properties
-	
- // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
- // Obfuscated:  /account/app/location/REDACT/settings/alerts
- // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
- if (props.pageview_properties && props.pageview_properties.path) {
-    props.pageview_properties.path = props.pageview_properties.path.replace(regex, redactText);
- }
-	
- // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
- // Obfuscated:  /account/app/location/REDACT/settings/alerts	
- // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
+	var regex = /(account)\/(plan|app)\/(devices|payment|location|confirmation|plans\/(subscribe|upgrade|cancel|remove))\/([A-Za-z0-9_@.-]+?)(?=\/|$|\&)/;
+	var redactText = "$1/$2/$3/$4" + "REDACT";
 
- if (props.pageview_properties && props.pageview_properties.hash) {
-    props.pageview_properties.query = props.pageview_properties.query.replace(regex, redactText);
- }	
-	
- // Example:    ?locationId=location_id&deviceId=device_ID&planType=plus&billingFrequency=monthly
- // Obfuscated: ?locationId=REDACT&deviceId=REDACT&planType=plus&billingFrequency=monthly
- // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
- if (props.pageview_properties && props.pageview_properties.query) {
-    props.pageview_properties.query = props.pageview_properties.query.replace(regex, redactText);
- }
-	
- // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
- // Obfuscated:  /account/app/location/REDACT/settings/alerts		
- if (props.pageview_properties && props.pageview_properties.previous_page) {
-    props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(regex, redactText);
- }
+	//Regex Group 1
 
-	
- //Session Properties
-	
- // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
- // Obfuscated:  /account/app/location/REDACT/settings/alerts		
- // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
+	 //Event Properties
+	 if (props.event_properties && props.event_properties.href) {
+	    props.event_properties.href = props.event_properties.href.replace(regex, redactText);
+	 }
+	 if (props.event_properties.hierarchy && props.event_properties.hierarchy.toLowerCase().indexOf('[href') > -1) {
+	      props.event_properties.hierarchy = props.event_properties.hierarchy.replace(regex, redactText);
+	  }
 
- if (props.session_properties && props.session_properties.path) {
-    props.session_properties.path = props.session_properties.path.replace(regex, redactText);
- }
-	
- // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
- // Obfuscated:  /account/app/location/REDACT/settings/alerts	
- // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
+	 //Pageview Properties
+	 if (props.pageview_properties && props.pageview_properties.path) {
+	    props.pageview_properties.path = props.pageview_properties.path.replace(regex, redactText);
+	 }
+	 if (props.pageview_properties && props.pageview_properties.hash) {
+	    props.pageview_properties.hash = props.pageview_properties.hash.replace(regex, redactText);
+	 }
+	 if (props.pageview_properties && props.pageview_properties.previous_page) {
+	    props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(regex, redactText);
+	 }
 
- if (props.session_properties && props.session_properties.hash) {
-    props.session_properties.hash = props.session_properties.hash.replace(regex, redactText);
- }
-	
- // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
- // Obfuscated:  /account/app/location/REDACT/settings/alerts
- // RegEx:       deviceId=|locationId=|PayerID=|token=|l=|discount=|location=|devices=|checkout\[email\]=|invitation_token=|code=	
- if (props.session_properties && props.session_properties.query) {
-    props.session_properties.query = props.session_properties.query.replace(regex, redactText);
- }
+	 //Session Properties
+	 if (props.session_properties && props.session_properties.path) {
+	    props.session_properties.path = props.session_properties.path.replace(regex, redactText);
+	 }
+	 if (props.session_properties && props.session_properties.hash) {
+	    props.session_properties.hash = props.session_properties.hash.replace(regex, redactText);
+	 }
+	 if (props.session_properties && props.session_properties.referrer) {
+	    props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
+	 }
 
- // Example:     /account/app/location/djn11j-1a61k-0/settings/alerts
- // Obfuscated:  /account/app/location/REDACT/settings/alerts	
- // RegEx:       \/payment\/|\/devices\/|\/subscribe\/|\/plans\/upgrade\/|\/cancel\/|\/remove\/|\/location\/|\/confirmation\/|\/cases\/|\/alerts\/|\/share\/|\/user-id\/|\/orders\/|\/checkouts\/	
- if (props.session_properties && props.session_properties.referrer) {
-    props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
- }
- return props;
+	var queryRegex = /(deviceId=|locationId=|PayerID=|token=|l=|discount=|location=|devices=|checkout\[email\]=|invitation_token=|code=)(.+?)(?=\/|$|\&)/g;
+
+	//Query Regex
+	 if (props.pageview_properties && props.pageview_properties.query) {
+	    props.pageview_properties.query = props.pageview_properties.query.replace(queryRegex, redactText);
+	 }
+
+	 if (props.session_properties && props.session_properties.query) {
+	    props.session_properties.query = props.session_properties.query.replace(queryRegex, redactText);
+	 }
+
+	 return props;
 }	
 	
 window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};   
@@ -97,7 +61,7 @@ heap.load("405057187", {rewrite: rewriteFunc});
 	
 function f1()
     {
-       history.pushState("", "", "/account/purchase/review?locationId=location_id&deviceId=device_id&planType=plus&billingFrequency=monthly");
+       history.pushState("", "", "account.ring.com/account/app/location/djn11j-1a61k-0/monitoring/signup/emergency-contact");
        //alert("test");
     }
 
