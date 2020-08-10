@@ -6,56 +6,61 @@
 <script type="text/javascript">   
 	
 function rewriteFunc(props) {
+
+  var regex = /(((account\/)(plan\/|app\/)(devices\/|payment\/|location\/|confirmation\/|plans\/(?:subscribe\/|upgrade\/|cancel\/|remove\/|)))|(cases\/|alerts\/|share\/|user\/viewprofilepage\/user-id\/|orders\/|checkouts\/))([A-Za-z0-9_@.-]+?)(?=\/|$)/;
+  var queryRegex = /[&?](deviceId=|locationId=|PayerID=|token=|l=|discount=|location=|devices=|checkout\[email\]=|invitation_token=|code=)(.+?)(?=\/|$|\&)/g;
+  var redactText = "$1" + "REDACT_TEXT_GOES_HERE";
+
+  //Event Properties
 	
-var regex = /(((account\/)(plan\/|app\/)(devices\/|payment\/|location\/|confirmation\/|plans\/(?:subscribe\/|upgrade\/|cancel\/|remove\/|)))|(cases\/|alerts\/|share\/|user\/viewprofilepage\/user-id\/|orders\/|checkouts\/))([A-Za-z0-9_@.-]+?)(?=\/|$)/;
-var queryRegex = /(deviceId=|locationId=|PayerID=|token=|l=|discount=|location=|devices=|checkout\[email\]=|invitation_token=|code=)(.+?)(?=\/|$|\&)/g;
-
-var redactText = "$1" + "REDACT";
+	if (props.event_properties) {
+	  if (props.event_properties.href) {
+	    props.event_properties.href = props.event_properties.href.replace(regex, redactText);
+	    props.event_properties.href = props.event_properties.href.replace(queryRegex, redactText);
+	  }
+	  if (props.event_properties.hierarchy &&
+	      props.event_properties.hierarchy.indexOf("[href") > -1) {
+	    props.event_properties.hierarchy = props.event_properties.hierarchy.replace(regex, redactText);
+			// Query regex for hierarchies on events.
+	    props.event_properties.hierarchy = props.event_properties.hierarchy.replace(queryRegex, redactText);
+	  }
+	}
+  // Pageview Properties
 	
-//Regex Group 1
+	if (props.pageview_properties) {
+	  if (props.pageview_properties.path) {
+	    props.pageview_properties.path = props.pageview_properties.path.replace(regex, redactText);
+	  }
+	  if (props.pageview_properties.hash) {
+	    props.pageview_properties.hash = props.pageview_properties.hash.replace(regex, redactText);
+	  }
+	  if (props.pageview_properties.previous_page) {
+	    props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(regex, redactText);
+	  }
+	  // Pageview Query Regex
+	  if (props.pageview_properties && props.pageview_properties.query) {
+	    props.pageview_properties.query = props.pageview_properties.query.replace(queryRegex, redactText);
+	  }
+	}
+  // Session Properties
+	
+	if (props.session_properties) {
+	  if (props.session_properties.path) {
+	    props.session_properties.path = props.session_properties.path.replace(regex, redactText);
+	  }
+	  if (props.session_properties.hash) {
+	    props.session_properties.hash = props.session_properties.hash.replace(regex, redactText);
+	  }
+	  if (props.session_properties.referrer) {
+	    props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
+	  }
+	// Session Query Param Regex
+	if (props.session_properties.query) {
+		props.session_properties.query = props.session_properties.query.replace(queryRegex, redactText);
+		}
+	  }
+  return props;	
 
- //Event Properties
- if (props.event_properties && props.event_properties.href) {
-    props.event_properties.href = props.event_properties.href.replace(regex, redactText);
-    props.event_properties.href = props.event_properties.href.replace(queryRegex, redactText);
- }
- if (props.event_properties.hierarchy && props.event_properties.hierarchy.toLowerCase().indexOf('[href') > -1) {
-      props.event_properties.hierarchy = props.event_properties.hierarchy.replace(regex, redactText);
-      props.event_properties.hierarchy = props.event_properties.hierarchy.replace(queryRegex, redactText);
-  }
-
- //Pageview Properties
- if (props.pageview_properties && props.pageview_properties.path) {
-    props.pageview_properties.path = props.pageview_properties.path.replace(regex, redactText);
- }
- if (props.pageview_properties && props.pageview_properties.hash) {
-    props.pageview_properties.hash = props.pageview_properties.hash.replace(regex, redactText);
- }
- if (props.pageview_properties && props.pageview_properties.previous_page) {
-    props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(regex, redactText);
- }
-
- //Session Properties
- if (props.session_properties && props.session_properties.path) {
-    props.session_properties.path = props.session_properties.path.replace(regex, redactText);
- }
- if (props.session_properties && props.session_properties.hash) {
-    props.session_properties.hash = props.session_properties.hash.replace(regex, redactText);
- }
- if (props.session_properties && props.session_properties.referrer) {
-    props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
- }
-
-//Query Regex
- if (props.pageview_properties && props.pageview_properties.query) {
-    props.pageview_properties.query = props.pageview_properties.query.replace(queryRegex, redactText);
- }
-
- if (props.session_properties && props.session_properties.query) {
-    props.session_properties.query = props.session_properties.query.replace(queryRegex, redactText);
- }
-
- return props;
 }	
 	
 window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};   
