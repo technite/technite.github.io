@@ -6,9 +6,10 @@
 <script type="text/javascript">   
 	
 function rewriteFunc(props) {
-
+	
 	var regex = /(account)\/(plan|app)\/(devices|payment|location|confirmation|plans\/(subscribe|upgrade|cancel|remove))\/([A-Za-z0-9_@.-]+?)(?=\/|$|\&)/;
 	var redactText = "$1/$2/$3/$4" + "REDACT";
+	var queryRedactText = "$1" + "REDACT";
 
 	//Regex Group 1
 
@@ -46,12 +47,13 @@ function rewriteFunc(props) {
 
 	//Query Regex
 	 if (props.pageview_properties && props.pageview_properties.query) {
-	    props.pageview_properties.query = props.pageview_properties.query.replace(queryRegex, redactText);
+	    props.pageview_properties.query = props.pageview_properties.query.replace(queryRegex, queryRedactText);
 	 }
 
 	 if (props.session_properties && props.session_properties.query) {
-	    props.session_properties.query = props.session_properties.query.replace(queryRegex, redactText);
+	    props.session_properties.query = props.session_properties.query.replace(queryRegex, queryRedactText);
 	 }
+
 
 	 return props;
 }	
@@ -61,7 +63,7 @@ heap.load("405057187", {rewrite: rewriteFunc});
 	
 function f1()
     {
-       history.pushState("", "", "account.ring.com/account/app/location/djn11j-1a61k-0/monitoring/signup/emergency-contact");
+       history.pushState("", "", "/account/purchase/review?locationId=djn11j-1a61k-0&deviceId=31208385&planType=plus&billingFrequency=monthly");
        //alert("test");
     }
 
@@ -77,7 +79,7 @@ function f1()
 
 	<div class = "Parent">	
 	<div class = "Child">
-  <a href="account.ring.com/account/app/location/djn11j-1a61k-0/monitoring/signup/emergency-contact" onclick="f1()">Test Link</a>
+  <a href="/account/purchase/review?locationId=djn11j-1a61k-0&deviceId=31208385&planType=plus&billingFrequency=monthly" onclick="f1()">Test Link</a>
 		</div>
 	</div>
  
