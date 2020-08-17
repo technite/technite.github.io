@@ -117,8 +117,10 @@
    */
 
   async function redirectBlast (delay) {
-
-    var urlsArr = qs('#test-urls-array').value;
+    
+    var urlsArr = qs('#test-urls-array').value.split(/[ ,]+/);
+    
+    console.log(urlsArr);
 
     for (let i = 0; i < urlsArr.length; i += 1) {
       history.pushState(null, null, `${path}/${urlsArr[i]}`)
