@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Heap Router Issue Repro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="content-type" content="charset=UTF8">
+</head>
+<body>
+<div id="app">
+  <div id="loader">
+    Heap ID: <input type="text" id="heap-id-field" value="2302276384" />
+    <button id="heap-load-button">Load heap</buttoz>
+  </div>
+  <hr />
+  <div class="controls">
+    <button disabled id="async-redirect-blast">Asynchronous redirect blast</button>
+    <button disabled id="sync-redirect-blast">Synchronous redirect blast</button>
+    <button id="clear-log">Clear log</button>
+  </div>
+  <hr />
+  <div id="log"></div>
+</div>
+
+<script type="text/javascript">
+  const path = new URL(document.location).pathname
+
+  /**
+   * Load Heap using the provided account id. Fill in your own Heap ID if you
+   * want to see the events come in on your own Heap account.
+   */
+  function loadHeap (id) {
+        window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};   
+    heap.load(id); 
+    heap.identify('repro-test-user')
+  }
+
+  /**
+   * Convenience function for spinning the event loop for a number of
+   * milliseconds.
+   */
+  function wait (ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
+  /**
+   * Triggers a series of redirects using `history.pushState`. If a delay is
+   * provided, it will wait (at least) that number of milliseconds between
+   * pushState calls.
+   */
+  async function redirectBlast (delay) {
+    for (let i = 0; i < 10; i += 1) {
+      history.pushState(null, null, `${path}route/${i}`)
+      if (delay) {
+        await wait(delay)
+      }
+    }
+    history.pushState(null, null, path)
+  }
+
+  /**
+   * Logs a { from, to } object pair to the provided logNode. Used later to
+   * render what the Heap javascript client is sending back to its server. 
+   */
+  function log (logNode, { from, to }) {
+    const entry = document.createElement('div')
+    entry.innerHTML = `<code>${from}</code> → <code>${to}</code>`
+
+    logNode.appendChild(entry)
+  }
+
+  // Grab a bunch of references to DOM nodes, becaues we're about to attach
+  // some stuff to them and otherwise bang on them a bit:
+  const qs = document.querySelector.bind(document)
+  const heapIdField = qs('#heap-id-field')
+  const heapLoadButton = qs('#heap-load-button')
+  const asyncRedirectBlastButton = qs('#async-redirect-blast')
+  const syncRedirectBlastButton = qs('#sync-redirect-blast')
+  const logNode = qs('#log')
+  const clearLogButton = qs('#clear-log')
+
+  // When the user click's the "Load heap" button, invoke the loadHeap function
+  // with the provided Heap account ID, then enable the two redirector buttons
+  heapLoadButton.addEventListener('click', () => {
+    const id = heapIdField.value
+    loadHeap(id)
+    
+    asyncRedirectBlastButton.disabled = false
+    syncRedirectBlastButton.disabled = false
+  })
+
+  asyncRedirectBlastButton.addEventListener('click', () => redirectBlast(2))
+  syncRedirectBlastButton.addEventListener('click', () => redirectBlast())
+  clearLogButton.addEventListener('click', () => { logNode.innerHTML = '' })
+
+  // To detect what the Heap client is sending at the server, we are going to
+  // use (abuse?) the browser's built-in PerformanceObserver utility. This is
+  // usually used to measure how long it takes to peform requests, but it can
+  // also be used to see what requests are being made or what resources are
+  // being requested. Because Heap sends tracking events via HTTP requests to
+  // a gif, we can track and dump those events by watching resource perf events
+  // with PerformanceObserver. Neat!
+  //
+  const observer = new PerformanceObserver((list) => {
+    // Any time we get a PerformanceObserver event, we get all the entries that
+    // it contains, and then filter down to just the events we care about, 
+    // converting them to { from, to } pairs along the way.
+    const routeChangesLoggedToHeap = list.getEntries().map(te => {
+      const params = (new URL(te.name)).searchParams
+      const from = params.get('pr')
+      const to = params.get('h')
+
+      if (from && to) return { from, to }
+      else return null
+    }).filter(Boolean)
+
+    // Once we have { from, to } pairs, log each one to the logger node.
+    routeChangesLoggedToHeap.forEach(change => log(logNode, change))
+  });
+
+  // Observe any resource load events.
+  observer.observe({ entryTypes: ['resource'] })
+</script>
+</body>
+</html>
