@@ -157,6 +157,7 @@
   const heapIdField = qs('#heap-id-field')
   const heapIdentityField = qs ('#heap-identity-field')
   const heapLoadButton = qs('#heap-load-button')
+  const heapRewriteLoadButton = qs('#heap-rewrite-load-button')
   const asyncRedirectBlastButton = qs('#async-redirect-blast')
   //const syncRedirectBlastButton = qs('#sync-redirect-blast')
   const logNode = qs('#log')
@@ -174,7 +175,7 @@
 
 
 
-  heapLoadButton.addEventListener('click', () => {
+  heapRewriteLoadButton.addEventListener('click', () => {
     const id = heapIdField.value
     const identity = heapIdentityField.value
     loadHeapRewrite(id,identity)
