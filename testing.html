@@ -9,7 +9,8 @@
 <div id="app">
   <div id="loader">
     Heap ID: <input type="text" id="heap-id-field" value="405057187" />
-    <button id="heap-load-button">Load heap</buttoz>
+    Identity: <input type="text" id="heap-identity-field" value="Test_User" />
+    <button id="heap-load-button">Load heap</button>
   </div>
   <hr />
   <div class="controls">
@@ -90,10 +91,10 @@
    * Load Heap using the provided account id. Fill in your own Heap ID if you
    * want to see the events come in on your own Heap account.
    */
-  function loadHeap (id) {
+  function loadHeap (id,identity) {
         window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};   
     heap.load(id, {rewrite: rewriteFunc}); 
-    heap.identify('re-write-test-8-17')
+    heap.identify(identity);
   }
 
   /**
@@ -110,7 +111,7 @@
    * pushState calls.
    */
 
-   var ringURLs = [
+   var testURLs = [
       "account/plan/devices/djn11j-1a61k-0/yearly",
       "account/plan/payment/djn11j-1a61k-0/yearly",
       "account/plan/devices/djn11j-1a61k-0/monthly",
@@ -163,9 +164,9 @@
       "?code=1do7r4SAihAzzhk5_u3-wgKTYvVZy1owHe8fksmKakAv1j0PV6app-dQvKKgDPVJPz4D-aSY-A0WBPl-VLTkcg"]
 
   async function redirectBlast (delay) {
-    for (let i = 0; i < ringURLs.length; i += 1) {
-      history.pushState(null, null, `${path}/${ringURLs[i]}`)
-      console.log(`/${ringURLs[i]}`);
+    for (let i = 0; i < testURLs.length; i += 1) {
+      history.pushState(null, null, `${path}/${testURLs[i]}`)
+      console.log(`/${testURLs[i]}`);
       if (delay) {
         await wait(delay)
       }
@@ -189,9 +190,10 @@
   // some stuff to them and otherwise bang on them a bit:
   const qs = document.querySelector.bind(document)
   const heapIdField = qs('#heap-id-field')
+  const heapIdentityField = qs ('#heap-identity-field')
   const heapLoadButton = qs('#heap-load-button')
   const asyncRedirectBlastButton = qs('#async-redirect-blast')
-  const syncRedirectBlastButton = qs('#sync-redirect-blast')
+  //const syncRedirectBlastButton = qs('#sync-redirect-blast')
   const logNode = qs('#log')
   const clearLogButton = qs('#clear-log')
 
@@ -199,7 +201,8 @@
   // with the provided Heap account ID, then enable the two redirector buttons
   heapLoadButton.addEventListener('click', () => {
     const id = heapIdField.value
-    loadHeap(id)
+    const identity = heapIdentityField.value
+    loadHeap(id,identity)
     
     asyncRedirectBlastButton.disabled = false
     //syncRedirectBlastButton.disabled = false
