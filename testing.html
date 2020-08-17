@@ -103,7 +103,7 @@
       "?code=1do7r4SAihAzzhk5_u3-wgKTYvVZy1owHe8fksmKakAv1j0PV6app-dQvKKgDPVJPz4D-aSY-A0WBPl-VLTkcg"]
 
   async function redirectBlast (delay) {
-    for (let i = 0; i < 1; i += 1) {
+    for (let i = 0; i < ringURLs.length; i += 1) {
       history.pushState(null, null, `${path}/${ringURLs[i]}`)
       console.log(`/${ringURLs[i]}`);
       if (delay) {
