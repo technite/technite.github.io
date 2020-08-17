@@ -13,6 +13,11 @@
     <button id="heap-load-button">Load heap</button>
   </div>
   <hr />
+  <div id="urls">
+  <div id="loader">
+    Test URLs Array: <input type="text" id="test-urls-array" value="" />
+  </div>
+  <hr />
   <div class="controls">
     <button disabled id="async-redirect-blast">Asynchronous redirect blast</button>
     <!--
@@ -111,59 +116,7 @@
    * pushState calls.
    */
 
-   var testURLs = [
-      "account/plan/devices/djn11j-1a61k-0/yearly",
-      "account/plan/payment/djn11j-1a61k-0/yearly",
-      "account/plan/devices/djn11j-1a61k-0/monthly",
-      "account/plan/payment/djn11j-1a61k-0/monthly",
-      "account/plan/payment/djn11j-1a61k-0/multicam_yearly",
-      "account/plan/payment/djn11j-1a61k-0/multicam_monthly",
-      "account/app/location/djn11j-1a61k-0/devices",
-      "account/app/location/djn11j-1a61k-0/settings",
-      "account/app/location/djn11j-1a61k-0/settings/users",
-      "account/app/location/djn11j-1a61k-0/settings/modes",
-      "account/app/location/djn11j-1a61k-0/edit",
-      "account/app/location/djn11j-1a61k-0/settings/alerts",
-      "account/app/location/djn11j-1a61k-0/monitoring/signup/emergency-contact",
-      "account/app/location/djn11j-1a61k-0/settings/users/choose-type",
-      "account/app/location/djn11j-1a61k-0/settings/modes/all",
-      "account/app/location/djn11j-1a61k-0/settings/modes/some",
-      "account/app/location/djn11j-1a61k-0/monitoring/signup/terms",
-      "account/app/location/djn11j-1a61k-0/settings/users/add-shared",
-      "account/app/location/djn11j-1a61k-0/settings/modes/none",
-      "account/app/location/djn11j-1a61k-0/settings/users/add-guest",
-      "account/app/location/djn11j-1a61k-0/monitoring/signup/residence-type",
-      "account/app/location/djn11j-1a61k-0/monitoring/signup/cross-street",
-      "account/app/location/djn11j-1a61k-0/edit/country",
-      "account/app/location/djn11j-1a61k-0/monitoring/signup/skip-setup",
-      "account/app/location/djn11j-1a61k-0/monitoring/signup/residence-type/learn-more",
-      "account/app/plans/subscribe/djn11j-1a61k-0",
-      "account/app/plans/upgrade/djn11j-1a61k-0",
-      "account/app/plans/cancel/djn11j-1a61k-0",
-      "account/app/plans/remove/djn11j-1a61k-0",
-      "account/app/location/djn11j-1a61k-0",
-      "account/plan/location/djn11j-1a61k-0",
-      "account/plan/confirmation/djn11j-1a61k-0",
-      "cases/14810",
-      "alerts/2308641",
-      "share/6779325922187571491",
-      "user/viewprofilepage/user-id/6776693772964037722",
-      "{{shopify store id}}/orders/ebc741d2818b4e52d034bed1e90d8232",
-      "{{shopify store id}}/checkouts/6914341426c9d300552f143f7e1ddf2d",
-      //Query Parameters
-      "account/activity-history?l=djn11j-1a61k-0",
-      "account/dashboard?l=djn11j-1a61k-0",
-      "account/attach/review?plan=basic&provider=provider_id&location=djn11j-1a61k-0&devices=31208385",
-      "checkout/contact_information?PayerID=BZZX9MTZZEZS4&token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyMjg1NjA4MCwidXNlcl9lbWFpbCI6Implbm55c2hlbkB3aW5kb3dzbGl2ZS5jb20iLCJ1c2VyX3N0YXR1cyI6InVudmVyaWZpZWQiLCJhcHBfYnJhbmQiOiJkb29yYm90Iiwib3MiOiJyaW5nLXNpdGUiLCJleHAiOjE1NzUzNjA0NjR9.5uO6B8RX_XoP56QT7PzOBMqlXWsarlNTo-ORahWdXcg",
-      "users/verify_email?token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyMjg1NjA4MCwidXNlcl9lbWFpbCI6Implbm55c2hlbkB3aW5kb3dzbGl2ZS5jb20iLCJ1c2VyX3N0YXR1cyI6InVudmVyaWZpZWQiLCJhcHBfYnJhbmQiOiJkb29yYm90Iiwib3MiOiJyaW5nLXNpdGUiLCJleHAiOjE1NzUzNjA0NjR9.5uO6B8RX_XoP56QT7PzOBMqlXWsarlNTo-ORahWdXcg",
-      "mobile/upgrade/?user_email=daniel.rosen@heap.io",
-      "checkout/contact_information?checkout[email]=daniel.rosen@heap.io&discount=ABC123&locale=ne",
-      "account/purchase/review?locationId=djn11j-1a61k-0&deviceId=31208385&planType=plus&billingFrequency=monthly",
-      "invitation/accept?invitation_token=EC-7FF31024LG718241R",
-      "?code=1do7r4SAihAzzhk5_u3-wgKTYvVZy1owHe8fksmKakAv1j0PV6app-dQvKKgDPVJPz4D-aSY-A0WBPl-VLTkcg",
-      "?code=1do7r4SAihAzzhk5_u3-wgKTYvVZy1owHe8fksmKakAv1j0PV6app-dQvKKgDPVJPz4D-aSY-A0WBPl-VLTkcg"]
-
-  async function redirectBlast (delay) {
+  async function redirectBlast (delay,testURLs) {
     for (let i = 0; i < testURLs.length; i += 1) {
       history.pushState(null, null, `${path}/${testURLs[i]}`)
       console.log(`/${testURLs[i]}`);
@@ -192,6 +145,7 @@
   const heapIdField = qs('#heap-id-field')
   const heapIdentityField = qs ('#heap-identity-field')
   const heapLoadButton = qs('#heap-load-button')
+  const testURLsArr = qs('test-urls-array')
   const asyncRedirectBlastButton = qs('#async-redirect-blast')
   //const syncRedirectBlastButton = qs('#sync-redirect-blast')
   const logNode = qs('#log')
@@ -202,13 +156,14 @@
   heapLoadButton.addEventListener('click', () => {
     const id = heapIdField.value
     const identity = heapIdentityField.value
+    const testURLs = testURLsArr.value
     loadHeap(id,identity)
     
     asyncRedirectBlastButton.disabled = false
     //syncRedirectBlastButton.disabled = false
   })
 
-  asyncRedirectBlastButton.addEventListener('click', () => redirectBlast(2))
+  asyncRedirectBlastButton.addEventListener('click', () => redirectBlast(2, testURLs))
   //syncRedirectBlastButton.addEventListener('click', () => redirectBlast())
   clearLogButton.addEventListener('click', () => { logNode.innerHTML = '' })
 
