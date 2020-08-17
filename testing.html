@@ -11,6 +11,7 @@
     Heap ID: <input type="text" id="heap-id-field" value="405057187" />
     Identity: <input type="text" id="heap-identity-field" value="Test_User" />
     <button id="heap-load-button">Load heap</button>
+    <button id="heap-rewrite-load-button">Load Heap with Rewrite</button>
   </div>
   <hr />
   <div id="urls">
@@ -98,6 +99,12 @@
    */
   function loadHeap (id,identity) {
         window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};   
+    heap.load(id); 
+    heap.identify(identity);
+  }
+
+  function loadHeapRewrite (id,identity) {
+        window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};   
     heap.load(id, {rewrite: rewriteFunc}); 
     heap.identify(identity);
   }
@@ -161,6 +168,16 @@
     const id = heapIdField.value
     const identity = heapIdentityField.value
     loadHeap(id,identity)
+    asyncRedirectBlastButton.disabled = false
+    //syncRedirectBlastButton.disabled = false
+  })
+
+
+
+  heapLoadButton.addEventListener('click', () => {
+    const id = heapIdField.value
+    const identity = heapIdentityField.value
+    loadHeapRewrite(id,identity)
 
     asyncRedirectBlastButton.disabled = false
     //syncRedirectBlastButton.disabled = false
