@@ -20,7 +20,7 @@
   </div>
   <hr />
   <div class="controls">
-    <button disabled id="async-redirect-blast">Asynchronous redirect blast</button>
+    <button disabled id="async-redirect-blast">Begin Test</button>
     <!--
     <button disabled id="sync-redirect-blast">Synchronous redirect blast</button>
     -->
@@ -92,7 +92,6 @@
 
 }	
 
-
   /**
    * Load Heap using the provided account id. Fill in your own Heap ID if you
    * want to see the events come in on your own Heap account.
@@ -152,19 +151,17 @@
   }
 
   // Grab a bunch of references to DOM nodes, becaues we're about to attach
-  // some stuff to them and otherwise bang on them a bit:
   const qs = document.querySelector.bind(document)
   const heapIdField = qs('#heap-id-field')
   const heapIdentityField = qs ('#heap-identity-field')
   const heapLoadButton = qs('#heap-load-button')
   const heapRewriteLoadButton = qs('#heap-rewrite-load-button')
   const asyncRedirectBlastButton = qs('#async-redirect-blast')
-  //const syncRedirectBlastButton = qs('#sync-redirect-blast')
   const logNode = qs('#log')
   const clearLogButton = qs('#clear-log')
 
   // When the user click's the "Load heap" button, invoke the loadHeap function
-  // with the provided Heap account ID, then enable the two redirector buttons
+  // with the provided Heap account ID, then enable the redirector buttons
   heapLoadButton.addEventListener('click', () => {
     const id = heapIdField.value
     const identity = heapIdentityField.value
@@ -173,30 +170,18 @@
     //syncRedirectBlastButton.disabled = false
   })
 
-
-
   heapRewriteLoadButton.addEventListener('click', () => {
     const id = heapIdField.value
     const identity = heapIdentityField.value
     loadHeapRewrite(id,identity)
 
     asyncRedirectBlastButton.disabled = false
-    //syncRedirectBlastButton.disabled = false
   })
 
   asyncRedirectBlastButton.addEventListener('click', () => redirectBlast(2)
   )
-  //syncRedirectBlastButton.addEventListener('click', () => redirectBlast())
   clearLogButton.addEventListener('click', () => { logNode.innerHTML = '' })
 
-  // To detect what the Heap client is sending at the server, we are going to
-  // use (abuse?) the browser's built-in PerformanceObserver utility. This is
-  // usually used to measure how long it takes to peform requests, but it can
-  // also be used to see what requests are being made or what resources are
-  // being requested. Because Heap sends tracking events via HTTP requests to
-  // a gif, we can track and dump those events by watching resource perf events
-  // with PerformanceObserver. Neat!
-  //
   const observer = new PerformanceObserver((list) => {
     // Any time we get a PerformanceObserver event, we get all the entries that
     // it contains, and then filter down to just the events we care about, 
