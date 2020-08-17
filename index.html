@@ -167,15 +167,15 @@
     const identity = heapIdentityField.value
     loadHeap(id,identity)
     asyncRedirectBlastButton.disabled = false
-    //syncRedirectBlastButton.disabled = false
+    heapRewriteLoadButton.disabled = true
   })
 
   heapRewriteLoadButton.addEventListener('click', () => {
     const id = heapIdField.value
     const identity = heapIdentityField.value
     loadHeapRewrite(id,identity)
-
     asyncRedirectBlastButton.disabled = false
+    heapLoadButton.disabled = true
   })
 
   asyncRedirectBlastButton.addEventListener('click', () => redirectBlast(2)
