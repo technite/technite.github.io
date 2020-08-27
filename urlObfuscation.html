@@ -36,9 +36,13 @@
 
   function rewriteFunc(props) {
 
-      var regex = /(((account\/)(plan\/|app\/)(devices\/|payment\/|location\/|confirmation\/|plans\/(?:subscribe\/|upgrade\/|cancel\/|remove\/|)))|(cases\/|alerts\/|share\/|user\/viewprofilepage\/user-id\/|orders\/|checkouts\/))([A-Za-z0-9_@.-]+?)(?=\/|$)/;
-      var queryRegex = /([&?]deviceId=|[&?]locationId=|[&?]PayerID=|[&?]token=[&?]|l=|[&?]discount=|[&?]location=|[&?]devices=|[&?]checkout\[email\]=|[&?]invitation_token=|[&?]code=)([A-Za-z0-9_@.-]+?)(?=\/|$|\&)/g;
-      var redactText = "$1" + "REDACTED";
+      //var regex = /(((account\/)(plan\/|app\/)(devices\/|payment\/|location\/|confirmation\/|plans\/(?:subscribe\/|upgrade\/|cancel\/|remove\/|)))|(cases\/|alerts\/|share\/|user\/viewprofilepage\/user-id\/|orders\/|checkouts\/))([A-Za-z0-9_@.-]+?)(?=\/|$)/;
+      //var queryRegex = /([&?]deviceId=|[&?]locationId=|[&?]PayerID=|[&?]token=[&?]|l=|[&?]discount=|[&?]location=|[&?]devices=|[&?]checkout\[email\]=|[&?]invitation_token=|[&?]code=)([A-Za-z0-9_@.-]+?)(?=\/|$|\&)/g;
+      
+    var pathRegex = new RegExp('(((account\/)(plan\/|app\/)(devices\/|payment\/|location\/|confirmation\/|plans\/(?:subscribe\/|upgrade\/|cancel\/|remove\/|)))|(cases\/|alerts\/|share\/|user\/viewprofilepage\/user-id\/|orders\/|checkouts\/))([A-Za-z0-9_@.-]+?)(?=\/|$)');
+    var queryParamsRegex = new RegExp('([&?]deviceId=|[&?]locationId=|[&?]PayerID=|[&?]token=[&?]|l=|[&?]discount=|[&?]location=|[&?]devices=|[&?]checkout\[email\]=|[&?]invitation_token=|[&?]code=)([A-Za-z0-9_@.-]+?)(?=\/|$|\&)', 'g');
+    
+       var redactText = "$1" + "REDACTED";
 
       //Event Properties
 
