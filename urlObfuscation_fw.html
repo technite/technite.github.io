@@ -38,10 +38,10 @@
 
       //var regex = /(((account\/)(plan\/|app\/)(devices\/|payment\/|location\/|confirmation\/|plans\/(?:subscribe\/|upgrade\/|cancel\/|remove\/|)))|(cases\/|alerts\/|share\/|user\/viewprofilepage\/user-id\/|orders\/|checkouts\/))([A-Za-z0-9_@.-]+?)(?=\/|$)/;
       //var queryRegex = /([&?]deviceId=|[&?]locationId=|[&?]PayerID=|[&?]token=[&?]|l=|[&?]discount=|[&?]location=|[&?]devices=|[&?]checkout\[email\]=|[&?]invitation_token=|[&?]code=)([A-Za-z0-9_@.-]+?)(?=\/|$|\&)/g;
-      
+
     var regex = new RegExp('(((account\/)(plan\/|app\/)(devices\/|payment\/|location\/|confirmation\/|plans\/(?:subscribe\/|upgrade\/|cancel\/|remove\/|)))|(cases\/|alerts\/|share\/|user\/viewprofilepage\/user-id\/|orders\/|checkouts\/))([A-Za-z0-9_@.-]+?)(?=\/|$)');
     var queryRegex = new RegExp('([&?]deviceId=|[&?]locationId=|[&?]PayerID=|[&?]token=[&?]|l=|[&?]discount=|[&?]location=|[&?]devices=|[&?]checkout\[email\]=|[&?]invitation_token=|[&?]code=)([A-Za-z0-9_@.-]+?)(?=\/|$|\&)', 'g');
-    
+
        var redactText = "$1" + "REDACTED";
 
       //Event Properties
@@ -92,24 +92,55 @@
         props.session_properties.query = props.session_properties.query.replace(queryRegex, redactText);
         }
         }
-      return props;	
+      return props;
 
-}	
+}
 
   /**
    * Load Heap using the provided account id. Fill in your own Heap ID if you
    * want to see the events come in on your own Heap account.
    */
   function loadHeap (id,identity) {
-        window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};   
-    heap.load(id); 
+        window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};
+    heap.load(id);
     heap.identify(identity);
   }
 
   function loadHeapRewrite (id,identity) {
-        window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};   
-    heap.load(id, {rewrite: rewriteFunc}); 
+        window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};
+        heap.load(id, {
+          rewrite: function (payload) {
+            for (var prop in PROPS_TO_REDACT) {
+              var props = PROPS_TO_REDACT[prop];
+              for (var i = 0; i < props.length; i++) {
+                if (payload[prop] && payload[prop][props[i]]) {
+                  payload[prop][props[i]] = getRedactedString(payload[prop][props[i]]);
+                }
+              }
+            }
+            return payload;
+        }
+    }); 
     heap.identify(identity);
+  }
+
+  var pathsToRedact = ['invite', 'reset-password', 'unlock', 'set-password'];
+  var REDACT_STR = '********';
+  var regExp = new RegExp('\/+(' + pathsToRedact.join('|') + ')+\/');
+  var PROPS_TO_REDACT = {
+    pageview_properties: ['path', 'previous_page'],
+    session_properties: ['path', 'referrer'],
+    event_properties: ['href']
+  };
+
+  function getStringFromMatches(str, matches) {
+    return str.substring(0, matches.index) + matches[0] + REDACT_STR
+  }
+  function getRedactedString(str) {
+    var matches = str.match(regExp);
+    return matches && matches.length
+      ? getStringFromMatches(str, matches)
+      : str;
   }
 
   /**
@@ -127,9 +158,9 @@
    */
 
   async function redirectBlast (delay) {
-    
+
     var urlsArr = qs('#test-urls-array').value.split(/[ ,]+/);
-    
+
     console.log(urlsArr);
 
     for (let i = 0; i < urlsArr.length; i += 1) {
@@ -140,12 +171,12 @@
       }
     }
     history.pushState(null, null, path)
-    
+
   }
 
   /**
    * Logs a { from, to } object pair to the provided logNode. Used later to
-   * render what the Heap javascript client is sending back to its server. 
+   * render what the Heap javascript client is sending back to its server.
    */
   function log (logNode, { from, to }) {
     const entry = document.createElement('div')
@@ -188,7 +219,7 @@
 
   const observer = new PerformanceObserver((list) => {
     // Any time we get a PerformanceObserver event, we get all the entries that
-    // it contains, and then filter down to just the events we care about, 
+    // it contains, and then filter down to just the events we care about,
     // converting them to { from, to } pairs along the way.
     const routeChangesLoggedToHeap = list.getEntries().map(te => {
       const params = (new URL(te.name)).searchParams
