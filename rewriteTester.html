@@ -37,10 +37,20 @@
   function rewriteFunc(props) {
       //Event Properties
       if (props.event_properties) {
+        props.event.utm_source = "Google";
+        props.event.utm_medium = "Web";
+        props.event.utm_campaign = "Ad";
+        props.event.utm_content = "Post";
+        props.event.utm_term = "Word";   
       }
       
     // Pageview Properties
-      if (props.pageview_properties) {     
+      if (props.pageview_properties) {
+        props.pageview_properties.utm_source = "Google";
+        props.pageview_properties.utm_medium = "Web";
+        props.pageview_properties.utm_campaign = "Ad";
+        props.pageview_properties.utm_content = "Post";
+        props.pageview_properties.utm_term = "Word";   
       }
     
       // Session Properties
