@@ -47,38 +47,16 @@
       //Event Properties
 
       if (props.event_properties) {
-        if (props.event_properties.href) {
-          props.event_properties.href = props.event_properties.href.replace(regex, redactText);
-          props.event_properties.href = props.event_properties.href.replace(queryRegex, redactText);
-        }
-        if (props.event_properties.hierarchy &&
-            props.event_properties.hierarchy.indexOf("[href") > -1) {
-          props.event_properties.hierarchy = props.event_properties.hierarchy.replace(regex, redactText);
-          // Query regex for hierarchies on events.
-          props.event_properties.hierarchy = props.event_properties.hierarchy.replace(queryRegex, redactText);
-        }
           props.event_properties.utm_source = "Google";
           props.event_properties.utm_medium = "Web";
           props.event_properties.utm_campaign = "Ad";
           props.event_properties.utm_content = "Post";
           props.event_properties.utm_term = "Word";  
       }
+    
       // Pageview Properties
 
       if (props.pageview_properties) {
-        if (props.pageview_properties.path) {
-          props.pageview_properties.path = props.pageview_properties.path.replace(regex, redactText);
-        }
-        if (props.pageview_properties.hash) {
-          props.pageview_properties.hash = props.pageview_properties.hash.replace(regex, redactText);
-        }
-        if (props.pageview_properties.previous_page) {
-          props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(regex, redactText);
-        }
-        // Pageview Query Regex
-        if (props.pageview_properties && props.pageview_properties.query) {
-          props.pageview_properties.query = props.pageview_properties.query.replace(queryRegex, redactText);
-        }
           props.pageview_properties.utm_source = "Google";
           props.pageview_properties.utm_medium = "Web";
           props.pageview_properties.utm_campaign = "Ad";
