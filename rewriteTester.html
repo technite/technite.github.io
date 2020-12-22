@@ -57,6 +57,11 @@
           // Query regex for hierarchies on events.
           props.event_properties.hierarchy = props.event_properties.hierarchy.replace(queryRegex, redactText);
         }
+          props.event_properties.utm_source = "Google";
+          props.event_properties.utm_medium = "Web";
+          props.event_properties.utm_campaign = "Ad";
+          props.event_properties.utm_content = "Post";
+          props.event_properties.utm_term = "Word";  
       }
       // Pageview Properties
 
@@ -74,6 +79,12 @@
         if (props.pageview_properties && props.pageview_properties.query) {
           props.pageview_properties.query = props.pageview_properties.query.replace(queryRegex, redactText);
         }
+          props.pageview_properties.utm_source = "Google";
+          props.pageview_properties.utm_medium = "Web";
+          props.pageview_properties.utm_campaign = "Ad";
+          props.pageview_properties.utm_content = "Post";
+          props.pageview_properties.utm_term = "Word";    
+        
       }
       // Session Properties
 
