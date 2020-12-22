@@ -37,7 +37,7 @@
   function rewriteFunc(props) {
       //Event Properties
       if (props.event_properties) {
-        props.event.utm_source = "Google";
+        props.event.utm_source = "Google_EVENT";
         props.event.utm_medium = "Web";
         props.event.utm_campaign = "Ad";
         props.event.utm_content = "Post";
@@ -46,7 +46,7 @@
       
     // Pageview Properties
       if (props.pageview_properties) {
-        props.pageview_properties.utm_source = "Google";
+        props.pageview_properties.utm_source = "Google_PAGEVIEW";
         props.pageview_properties.utm_medium = "Web";
         props.pageview_properties.utm_campaign = "Ad";
         props.pageview_properties.utm_content = "Post";
@@ -55,7 +55,7 @@
     
       // Session Properties
       if (props.session_properties) {
-        props.session_properties.utm_source = "Google";
+        props.session_properties.utm_source = "Google_SESSION";
         props.session_properties.utm_medium = "Web";
         props.session_properties.utm_campaign = "Ad";
         props.session_properties.utm_content = "Post";
