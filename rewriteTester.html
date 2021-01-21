@@ -44,21 +44,26 @@
       // Pageview Properties
 
       if (props.pageview_properties) {
+        /*
           props.pageview_properties.utm_source = "Google";
           props.pageview_properties.utm_medium = "Web";
           props.pageview_properties.utm_campaign = "Ad";
           props.pageview_properties.utm_content = "Post";
           props.pageview_properties.utm_term = "Word";    
-        
+       */
+          props.pageview_properties.query="?utm_source=summer-mailer&utm_medium=email&utm_campaign=summer-sale";
       }
       // Session Properties
 
       if (props.session_properties) {
+          /*
           props.session_properties.utm_source = "Google";
           props.session_properties.utm_medium = "Web";
           props.session_properties.utm_campaign = "Ad";
           props.session_properties.utm_content = "Post";
-          props.session_properties.utm_term = "Word";         
+          props.session_properties.utm_term = "Word";     
+          */
+          props.session_properties.query="?utm_source=summer-mailer&utm_medium=email&utm_campaign=summer-sale";
         }
     
     
