@@ -4,6 +4,7 @@
 Although you can use them, for a more unique website, replace these images with your own. -->
 <html lang="en">
 <head>
+    <link rel='preload' as='script' href='https://cdn.heapanalytics.com/js/heap-915807933.js'>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +33,11 @@ Although you can use them, for a more unique website, replace these images with 
 	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 	})(window,document,'script','dataLayer','GTM-NK3MGVD');</script>
 <!-- End Google Tag Manager -->
+
 	
+heap.load("915807933", {
+    disableTextCapture: true
+}); 	
 </head>
 
 <body>
