@@ -1,0 +1,41 @@
+<html>
+
+<head>
+  <script type="text/javascript">
+    window.heap = window.heap || [], heap.load = function(e, t) {
+      window.heap.appid = e, window.heap.config = t = t || {};
+      var r = document.createElement("script");
+      r.type = "text/javascript", r.async = !0, r.src = "https://cdn.heapanalytics.com/js/heap-" + e + ".js";
+      var a = document.getElementsByTagName("script")[0];
+      a.parentNode.insertBefore(r, a);
+      for (var n = function(e) {
+          return function() {
+            heap.push([e].concat(Array.prototype.slice.call(arguments, 0)))
+          }
+        }, p = ["addEventProperties", "addUserProperties", "clearEventProperties", "identify", "resetIdentity", "removeEventProperty", "setEventProperties", "track", "unsetEventProperty"], o = 0; o < p.length; o++) heap[p[o]] = n(p[o])
+    };
+    heap.load("410999986");
+  </script>
+
+</head>
+
+<body>
+  <form>
+    <p>Please select your preferred contact method:</p>
+    <div>
+      <input type="radio" id="contactChoice1" name="contact" value="email">
+      <label for="contactChoice1">Email</label>
+
+      <input type="radio" id="contactChoice2" name="contact" value="phone">
+      <label for="contactChoice2">Phone</label>
+
+      <input type="radio" id="contactChoice3" name="contact" value="mail">
+      <label for="contactChoice3">Mail</label>
+    </div>
+    <div>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+</body>
+
+</html>
