@@ -30,9 +30,7 @@ Although you can use them, for a more unique website, replace these images with 
 
   heap.load("915807933", {
   rewrite: function(props) {
-
-    var queryRegex = "/(?:resetToken\=|loanId\=)(.+?)(?=\&|$)/gi";
-
+    var queryRegex = new RegExp('(resetToken\=|loanId\=)(.+?)(?=\&|$)', 'gi');
     var redactText = "$1" + "redacted";
 
     // Pageview Properties
