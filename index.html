@@ -41,6 +41,9 @@ Although you can use them, for a more unique website, replace these images with 
 
     // Session Properties
     if (props.session_properties) { 
+	if (props.session_properties.query) {
+            props.session_properties.query = props.session_properties.query.replace(queryRegex, redactText);
+        }
     }
     
     //Event Properties
