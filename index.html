@@ -32,7 +32,24 @@ Although you can use them, for a more unique website, replace these images with 
   }}();
 </script>
 	
-	
+  <dialog open id="my-dialog">
+    <p>Hello</p>
+    <form method="dialog">
+      <button type="submit" value="save">Save</button>
+    </form>
+  </dialog>
+
+  <script type="text/javascript">
+    const dialog = document.getElementById('my-dialog')
+    const mo = new MutationObserver(() => {
+      console.log(dialog.returnValue)
+      mo.disconnect()
+    })
+    mo.observe(dialog, {attributeFilter: ['open']})   
+    dialog.addEventListener('close', e => {
+      console.log('EventListener', dialog.returnValue, e.target.returnValue)
+    })
+  </script>	
 </head>
 
 <body>
