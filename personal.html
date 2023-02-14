@@ -16,7 +16,7 @@
 		    document.getElementById("input")
 		    showSecondQuestion();
 		  } else {
-		    document.getElementById("response").innerHTML = "Sorry, that's not the correct value.";
+		    document.getElementById("response").innerHTML = "Sorry, that's incorrect!";
 		  }
 		}
 
@@ -35,7 +35,7 @@
 		  } else if (input2 === "blue" or input2 === "gray" or input2 === "grey"){
 		  	 document.getElementById("secondResponse").innerHTML = "<br>Nice try!";
 		  }  else {
-		    document.getElementById("secondResponse").innerHTML = "Sorry, that's not the correct value.";
+		    document.getElementById("secondResponse").innerHTML = "Sorry, that's incorrect!.";
 		  }
 		}
 
@@ -50,7 +50,7 @@
 		    document.getElementById("thirdResponse").innerHTML = "Congrats, you got it right again!";
 		    showFourthQuestion();
 		  } else {
-		    document.getElementById("thirdResponse").innerHTML = "Sorry, that's not the correct value.";
+		    document.getElementById("thirdResponse").innerHTML = "Sorry, that's incorrect!";
 		  }
 		}
 
@@ -62,12 +62,12 @@
 		function checkFourthInput() {
 		  var input4 = document.getElementById("input4").value.toLowerCase();
 		  if (input4 === "chez josephine") {
-		    document.getElementById("fourthResponse").innerHTML = "<br>Congrats, you got it right again! Happy Valentine's Day!<br><br><br>" + '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6043.381447875513!2d-73.98147137553829!3d40.76882657856915!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c258528cef1dd7%3A0x5062203dfc6cc097!2sChez%20Josephine!5e0!3m2!1sen!2sus!4v1676350500090!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+		    document.getElementById("fourthResponse").innerHTML = "<br>That's right! Happy Valentine's Day!<br><br><br>" + '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6043.381447875513!2d-73.98147137553829!3d40.76882657856915!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c258528cef1dd7%3A0x5062203dfc6cc097!2sChez%20Josephine!5e0!3m2!1sen!2sus!4v1676350500090!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
 
 
 
 		  } else {
-		    document.getElementById("fourthResponse").innerHTML = "Sorry, that's not the correct value.";
+		    document.getElementById("fourthResponse").innerHTML = "Sorry, that's incorrect!";
 		  }
 		}
  </script>
