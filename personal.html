@@ -8,7 +8,7 @@
 
 
     <script type="text/javascript">
-        
+
         function checkInput() {
 		  var input = document.getElementById("input").value.toLowerCase();
 		  if (input === "grace street") {
@@ -32,7 +32,7 @@
 		  if (input2 === "green") {
 		    document.getElementById("secondResponse").innerHTML = "Congrats, you got it right again!";
 		    showThirdQuestion();
-		  } else if (input2 === "blue"){
+		  } else if (input2 === "blue" or input2 === "gray" or input2 === "grey"){
 		  	 document.getElementById("secondResponse").innerHTML = "<br>Nice try!";
 		  }  else {
 		    document.getElementById("secondResponse").innerHTML = "Sorry, that's not the correct value.";
@@ -86,7 +86,7 @@
       <button type="button" class="btn btn-primary" onclick="checkInput()">Submit</button>
     </form>
     <p>
-  
+
     </p>
     <div id="response"></div>
     <div id="secondQuestion"></div>
@@ -96,7 +96,7 @@
     <div id="fourthQuestion"></div>
     <div id="fourthResponse"></div>
     <div id="winner">
-   
+
 
     </div>
   </div>
