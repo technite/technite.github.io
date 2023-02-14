@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentines Day</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <script type="text/javascript">
+
+        function checkInput() {
+		  var input = document.getElementById("input").value.toLowerCase();
+		  if (input === "grace street") {
+		    document.getElementById("response").innerHTML = "Congrats, you got it right!";
+		    document.getElementById("input")
+		    showSecondQuestion();
+		  } else {
+		    document.getElementById("response").innerHTML = "Sorry, that's not the correct value.";
+		  }
+		}
+
+		function showSecondQuestion() {
+		  var secondQuestion = "<br><label for='input2'>What color are my eyes?</label>";
+		  secondQuestion += "<input type='text' class='form-control' id='input2' placeholder='Enter another value'>";
+		  secondQuestion += "<button type='button' class='btn btn-primary' onclick='checkSecondInput()'>Submit</button>";
+		  document.getElementById("secondQuestion").innerHTML = secondQuestion;
+		}
+
+		function checkSecondInput() {
+		  var input2 = document.getElementById("input2").value.toLowerCase();
+		  if (input2 === "green") {
+		    document.getElementById("secondResponse").innerHTML = "Congrats, you got it right again!";
+		    showThirdQuestion();
+		  } else if (input2 === "blue" or input2 === "gray" or input2 === "grey"){
+		  	 document.getElementById("secondResponse").innerHTML = "<br>Nice try!";
+		  }  else {
+		    document.getElementById("secondResponse").innerHTML = "Sorry, that's not the correct value.";
+		  }
+		}
+
+		function showThirdQuestion() {
+		  var thirdQuestion = "<br><label for='input3'>Name that song:</label><p>And I love the way<br> You can never find the right things to say <br>And you can't sit still an hour in the day <br>I'm so in love, let's run away because us is enough</p>"; thirdQuestion += "<input type='text' class='form-control' id='input3' placeholder='Enter another value'>"; thirdQuestion += "<button type='button' class='btn btn-primary' onclick='checkThirdInput()'>Submit</button>";
+		  document.getElementById("thirdQuestion").innerHTML = thirdQuestion;
+		}
+
+		function checkThirdInput() {
+		  var input3 = document.getElementById("input3").value.toLowerCase();
+		  if (input3 === "i guess i'm in love") {
+		    document.getElementById("thirdResponse").innerHTML = "Congrats, you got it right again!";
+		    showFourthQuestion();
+		  } else {
+		    document.getElementById("thirdResponse").innerHTML = "Sorry, that's not the correct value.";
+		  }
+		}
+
+
+		function showFourthQuestion() {
+		  var fourthQuestion = "<br><label for='input4'>Ok, here's one final riddle</label><p>Look in the place where you eat<br> For a word that's French and quite neat<br> Named after a dancer of elegance and grace, <br> A place that's sure to put a smile on your face.<br> Find me on 42nd, where the lights shine bright,<br> And the city's rhythms are in full flight <br> </p>"; fourthQuestion += "<input type='text' class='form-control' id='input4' placeholder='Enter another value'>"; fourthQuestion += "<button type='button' class='btn btn-primary' onclick='checkFourthInput()'>Submit</button>"; document.getElementById("fourthQuestion").innerHTML = fourthQuestion;
+		}
+
+		function checkFourthInput() {
+		  var input4 = document.getElementById("input4").value.toLowerCase();
+		  if (input4 === "chez josephine") {
+		    document.getElementById("fourthResponse").innerHTML = "<br>Congrats, you got it right again! Happy Valentine's Day!<br><br><br>" + '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6043.381447875513!2d-73.98147137553829!3d40.76882657856915!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c258528cef1dd7%3A0x5062203dfc6cc097!2sChez%20Josephine!5e0!3m2!1sen!2sus!4v1676350500090!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+
+
+
+		  } else {
+		    document.getElementById("fourthResponse").innerHTML = "Sorry, that's not the correct value.";
+		  }
+		}
+ </script>
+
+
+
+</head>
+<body>
+  <div class="container">
+    <h1>Valentine's Day Quiz</h1>
+    <form>
+      <div class="form-group">
+        <label for="input">Where was our first date?</label>
+        <input type="text" class="form-control" id="input" placeholder="Enter value">
+      </div>
+      <button type="button" class="btn btn-primary" onclick="checkInput()">Submit</button>
+    </form>
+    <p>
+
+    </p>
+    <div id="response"></div>
+    <div id="secondQuestion"></div>
+    <div id="secondResponse"></div>
+    <div id="thirdQuestion"></div>
+    <div id="thirdResponse"></div>
+    <div id="fourthQuestion"></div>
+    <div id="fourthResponse"></div>
+    <div id="winner">
+
+
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
