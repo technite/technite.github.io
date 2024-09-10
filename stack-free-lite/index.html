@@ -38,6 +38,22 @@
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
 
+<script type="text/javascript">
+(function () {
+  window._uxa = window._uxa || [];
+  if (typeof CS_CONF === 'undefined') {
+    window._uxa.push(['setPath', window.location.pathname + window.location.hash.replace('#', '?__')]);
+    var mt = document.createElement("script");
+    mt.type = "text/javascript";
+    mt.async = true;
+    mt.src = "t.contentsquare.net/uxa/2c5142b15f133.js";
+    document.getElementsByTagName("head")[0].appendChild(mt);
+  } else {
+    window._uxa.push(['trackPageview', window.location.pathname + window.location.hash.replace('#', '?__')]);
+  }
+})();
+</script>
+
   </head>
   <body>
 
