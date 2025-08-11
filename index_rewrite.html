@@ -28,28 +28,41 @@ Although you can use them, for a more unique website, replace these images with 
   window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};
 heap.load("1990117315", {
   rewrite: function(props) {
-    const redaction_rules = {
-      regex: /.*/, // User-supplied regex
-      replacement_text: "AAAAA" // User-supplied replacement text
-    };
 
-    const propertiesToRedact = [
-      props.event_properties?.href,
-      props.event_properties?.hierarchy,
-      props.pageview_properties?.path,
-      props.pageview_properties?.previous_page,
-      props.session_properties?.path,
-      props.session_properties?.referrer,
-    ];
+        var regex = new RegExp('.*');
+	  	var redactText = "AAAAA"
+        
+	  	//Event Properties
+        if (props.event_properties) {
+            if (props.event_properties.href) {
+                props.event_properties.href = props.event_properties.href.replace(regex, redactText);
+            }
+            if (props.event_properties.hierarchy &&
+                props.event_properties.hierarchy.indexOf("[href") > -1) {
+                props.event_properties.hierarchy = props.event_properties.hierarchy.replace(regex, redactText);
+            }
+        }
 
-    propertiesToRedact.forEach(prop => {
-      if (typeof prop === 'string') {
-        prop = prop.replace(redaction_rules.regex, redaction_rules.replacement_text);
-      }
-    });
+        // Pageview Properties
+        if (props.pageview_properties) {
+            if (props.pageview_properties.path) {
+                props.pageview_properties.path = props.pageview_properties.path.replace(regex, redactText);
+            }
+            if (props.pageview_properties.previous_page) {
+                props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(regex, redactText);
+            }
+        }
 
-    return props;
-       
+        // Session Properties
+        if (props.session_properties) {
+            if (props.session_properties.path) {
+                props.session_properties.path = props.session_properties.path.replace(regex, redactText);
+            }
+            if (props.session_properties.referrer) {
+                props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
+            }
+        }
+        return props;
   }
 });
 </script>	
