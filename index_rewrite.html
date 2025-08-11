@@ -26,32 +26,39 @@ Although you can use them, for a more unique website, replace these images with 
 	
 <script type="text/javascript">
   window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};
+
 heap.load("1990117315", {
-  rewrite: (props) => {
+  rewrite: function(props) {
     const regex = /.*/;
     const redactText = "AAAAA";
 
-    // Generic redact helper
-    const redact = (obj, keys) => {
-      if (!obj) return;
-      keys.forEach(
-        (key) => obj[key] && (obj[key] = obj[key].replace(regex, redactText))
-      );
-    };
+    // Helper to replace value if key exists
+    function redact(obj, key) {
+      if (obj && obj[key]) obj[key] = obj[key].replace(regex, redactText);
+    }
 
     // Redact event_properties
-    redact(props.event_properties, ["href"]);
-    if (
-      props.event_properties?.hierarchy?.includes("[href")
-    ) {
-      redact(props.event_properties, ["hierarchy"]);
+    if (props.event_properties) {
+      redact(props.event_properties, "href");
+      if (
+        props.event_properties.hierarchy &&
+        props.event_properties.hierarchy.includes("[href")
+      ) {
+        redact(props.event_properties, "hierarchy");
+      }
     }
 
     // Redact pageview_properties
-    redact(props.pageview_properties, ["path", "previous_page"]);
+    if (props.pageview_properties) {
+      redact(props.pageview_properties, "path");
+      redact(props.pageview_properties, "previous_page");
+    }
 
     // Redact session_properties
-    redact(props.session_properties, ["path", "referrer"]);
+    if (props.session_properties) {
+      redact(props.session_properties, "path");
+      redact(props.session_properties, "referrer");
+    }
 
     return props;
   }
