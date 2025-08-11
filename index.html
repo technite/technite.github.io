@@ -31,56 +31,59 @@ heap.load("915807933");
 document.cookie = "OriginLandingURL=https://www2.betsson.gr/en/?testQuery=123#testHash=Test456; path=/; max-age=3600";
 document.cookie = "OriginReferrer=https://www.testReferrer1.com; path=/; max-age=3600";
 
-function getCookie(name) {
-    // Escape the name to handle special characters if they exist
-    const nameEQ = name + "=";
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') {
-            c = c.substring(1, c.length);
-        }
-        if (c.indexOf(nameEQ) === 0) {
-            return decodeURIComponent(c.substring(nameEQ.length, c.length));
-        }
-    }
-    return null;
-}
+
 
 
 
 var transformerName = 'pullReferrerFromCookieTransformer';
 var transformerFn = function(messages) {
+
+    function getCookie(name) {
+        // Escape the name to handle special characters if they exist
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1, c.length);
+            }
+            if (c.indexOf(nameEQ) === 0) {
+                return decodeURIComponent(c.substring(nameEQ.length, c.length));
+            }
+        }
+        return null;
+    }
+
     var pullReferrerAndLandingPage = function(message) {
         const urlObject = new URL(getCookie("OriginLandingURL"));
 
         try {
             // Event is a pageview event
             if (message.type === 'meta_pageview') {
-				if (getCookie("OriginReferrer") != null) {
-                	message.data.session_info.referrer = getCookie("OriginReferrer"); 
-				}
+                if (getCookie("OriginReferrer") != null) {
+                    message.data.session_info.referrer = getCookie("OriginReferrer");
+                }
 
-				if(urlObject){ 
-	                message.data.session_info.initial_pageview_info.url.domain = urlObject.origin;
-	                message.data.session_info.initial_pageview_info.url.hash = urlObject.hash;
-	                message.data.session_info.initial_pageview_info.url.path = urlObject.pathname;
-	                message.data.session_info.initial_pageview_info.url.query = urlObject.search;
-				}
+                if (urlObject) {
+                    message.data.session_info.initial_pageview_info.url.domain = urlObject.origin;
+                    message.data.session_info.initial_pageview_info.url.hash = urlObject.hash;
+                    message.data.session_info.initial_pageview_info.url.path = urlObject.pathname;
+                    message.data.session_info.initial_pageview_info.url.query = urlObject.search;
+                }
             }
 
             // Event is a session event
             if (message.type === 'meta_session') {
                 if (getCookie("OriginReferrer") != null) {
-                	message.data.session_info.referrer = getCookie("OriginReferrer"); 
-				}
+                    message.data.session_info.referrer = getCookie("OriginReferrer");
+                }
 
-				if(urlObject){ 
-	                message.data.session_info.initial_pageview_info.url.domain = urlObject.origin;
-	                message.data.session_info.initial_pageview_info.url.hash = urlObject.hash;
-	                message.data.session_info.initial_pageview_info.url.path = urlObject.pathname;
-	                message.data.session_info.initial_pageview_info.url.query = urlObject.search;
-				}
+                if (urlObject) {
+                    message.data.session_info.initial_pageview_info.url.domain = urlObject.origin;
+                    message.data.session_info.initial_pageview_info.url.hash = urlObject.hash;
+                    message.data.session_info.initial_pageview_info.url.path = urlObject.pathname;
+                    message.data.session_info.initial_pageview_info.url.query = urlObject.search;
+                }
             }
 
             // Event is a user event
