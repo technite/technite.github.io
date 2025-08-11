@@ -57,7 +57,7 @@ var transformerFn = function(messages) {
         try {
             // Event is a pageview event
             if (message.type === 'meta_pageview') {
-				if (getCookie("OriginReferrer") != null{
+				if (getCookie("OriginReferrer") != null) {
                 	message.data.session_info.referrer = getCookie("OriginReferrer"); 
 				}
 
@@ -71,7 +71,7 @@ var transformerFn = function(messages) {
 
             // Event is a session event
             if (message.type === 'meta_session') {
-                if (getCookie("OriginReferrer") != null{
+                if (getCookie("OriginReferrer") != null) {
                 	message.data.session_info.referrer = getCookie("OriginReferrer"); 
 				}
 
