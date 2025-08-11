@@ -28,18 +28,44 @@ Although you can use them, for a more unique website, replace these images with 
   window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};
 heap.load("1990117315", {
   rewrite: function(props) {
-    // If the phrase `medical information` appears in the target text,
-    // then strip all captured target text.
-    if (props.event_properties.target_text && 
-        props.event_properties.target_text.indexOf('medical information') > -1) {
-      props.event_properties.target_text = "";
-    }
-    return props;
+
+        var regex = new RegExp('<Replace with regex>');
+        
+	  	//Event Properties
+        if (props.event_properties) {
+            if (props.event_properties.href) {
+                props.event_properties.href = props.event_properties.href.replace(regex, redactText);
+            }
+            if (props.event_properties.hierarchy &&
+                props.event_properties.hierarchy.indexOf("[href") > -1) {
+                props.event_properties.hierarchy = props.event_properties.hierarchy.replace(regex, redactText);
+            }
+        }
+
+        // Pageview Properties
+        if (props.pageview_properties) {
+            if (props.pageview_properties.path) {
+                props.pageview_properties.path = props.pageview_properties.path.replace(regex, redactText);
+            }
+            if (props.pageview_properties.previous_page) {
+                props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(regex, redactText);
+            }
+        }
+
+        // Session Properties
+        if (props.session_properties) {
+            if (props.session_properties.path) {
+                props.session_properties.path = props.session_properties.path.replace(regex, redactText);
+            }
+            if (props.session_properties.referrer) {
+                props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
+            }
+        }
+        return props;
   }
 });
 </script>	
 
-	
   <dialog open id="my-dialog">
     <p>Hello</p>
     <form method="dialog">
