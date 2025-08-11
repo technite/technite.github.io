@@ -48,43 +48,30 @@ Although you can use them, for a more unique website, replace these images with 
 }
 
 
-	const urlObject = new URL(getCookie("OriginLandingURL"));
-
-	const domain = urlObject.hostname;
-	const path = urlObject.pathname;
-	const hash = urlObject.hash;
-	const query = urlObject.search;
-
-	// Saving to the specified child elements
-	const message = {
-	  data: {
-	    session_info: {
-	      initial_pageview_info: {
-	        url: {
-	          domain: domain,
-	          path: path,
-	          hash: hash,
-	          query: query
-	        }
-	      }
-	    }
-	  }
-	};
-	
-	console.log(message);
 
 	var transformerName = 'pullReferrerFromCookieTransformer';
 var transformerFn = function(messages) {
-  var pullReferrer = function(message) {
-    try {
+  var pullReferrerAndLandingPage = function(message) {
+    const urlObject = new URL(getCookie("OriginLandingURL"));
+	  
+	  try {
       // Event is a pageview event
       if (message.type === 'meta_pageview') {
 		message.data.session_info.referrer = getCookie("OriginReferrer");
+		message.data.session_info.initial_pageview_info.url.domain = urlObject.hostname;
+		message.data.session_info.initial_pageview_info.url.hash = urlObject.pathname;
+		message.data.session_info.initial_pageview_info.url.path = urlObject.hash;
+		message.data.session_info.initial_pageview_info.url.query = urlObject.search;
+  
       }
 
       // Event is a session event
       if (message.type === 'meta_session') {
 		message.data.session_info.referrer = getCookie("OriginReferrer");
+		message.data.session_info.initial_pageview_info.url.domain = urlObject.hostname;
+		message.data.session_info.initial_pageview_info.url.hash = urlObject.pathname;
+		message.data.session_info.initial_pageview_info.url.path = urlObject.hash;
+		message.data.session_info.initial_pageview_info.url.query = urlObject.search;
       }
 
       // Event is a user event
@@ -98,7 +85,7 @@ var transformerFn = function(messages) {
     }
   };
 
-  return messages.map(pullReferrer);
+  return messages.map(pullReferrerAndLandingPage);
 };
 
 // Using metadata pipeline since we are modifying user, session, and pageview messages
