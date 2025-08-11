@@ -29,36 +29,41 @@ Although you can use them, for a more unique website, replace these images with 
 
 heap.load("1990117315", {
   rewrite: function(props) {
-    const regex = /.*/;
-    const redactText = "AAAAA";
 
-    // Helper to replace value if key exists
-    function redact(obj, key) {
-      if (obj && obj[key]) obj[key] = obj[key].replace(regex, redactText);
-    }
+        var regex = new RegExp('.*');
+	  	var redactText = "AAAAA"
+        
+	  	//Event Properties
+        if (props.event_properties) {
+            if (props.event_properties.href) {
+                props.event_properties.href = props.event_properties.href.replace(regex, redactText);
+            }
+            if (props.event_properties.hierarchy  &&
+                props.event_properties.hierarchy.indexOf("[href") > -1) {
+                props.event_properties.hierarchy = props.event_properties.hierarchy.replace(regex, redactText);
+            }
+        }
 
-    // Redact event_properties
-    if (props.event_properties) {
-      redact(props.event_properties, "href");
-      if (
-        props.event_properties.hierarchy) {
-        redact(props.event_properties, "hierarchy");
-      }
-    }
+        // Pageview Properties
+        if (props.pageview_properties) {
+            if (props.pageview_properties.path) {
+                props.pageview_properties.path = props.pageview_properties.path.replace(regex, redactText);
+            }
+            if (props.pageview_properties.previous_page) {
+                props.pageview_properties.previous_page = props.pageview_properties.previous_page.replace(regex, redactText);
+            }
+        }
 
-    // Redact pageview_properties
-    if (props.pageview_properties) {
-      redact(props.pageview_properties, "path");
-      redact(props.pageview_properties, "previous_page");
-    }
-
-    // Redact session_properties
-    if (props.session_properties) {
-      redact(props.session_properties, "path");
-      redact(props.session_properties, "referrer");
-    }
-
-    return props;
+        // Session Properties
+        if (props.session_properties) {
+            if (props.session_properties.path) {
+                props.session_properties.path = props.session_properties.path.replace(regex, redactText);
+            }
+            if (props.session_properties.referrer) {
+                props.session_properties.referrer = props.session_properties.referrer.replace(regex, redactText);
+            }
+        }
+        return props;
   }
 });
 
