@@ -41,9 +41,7 @@ heap.load("1990117315", {
     if (props.event_properties) {
       redact(props.event_properties, "href");
       if (
-        props.event_properties.hierarchy &&
-        props.event_properties.hierarchy.includes("[href")
-      ) {
+        props.event_properties.hierarchy) {
         redact(props.event_properties, "hierarchy");
       }
     }
