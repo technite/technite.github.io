@@ -30,7 +30,7 @@ Although you can use them, for a more unique website, replace these images with 
 
 	document.cookie = "OriginLandingURL=https://www2.betsson.gr/en; path=/; max-age=3600";
 	document.cookie = "OriginReferrer=https://www.testReferrer1.com; path=/; max-age=3600";
-
+	
 	function getCookie(name) {
     // Escape the name to handle special characters if they exist
     const nameEQ = name + "=";
@@ -47,6 +47,31 @@ Although you can use them, for a more unique website, replace these images with 
     return null;
 }
 
+
+	const urlObject = new URL(getCookie("OriginLandingURL"));
+
+	const domain = urlObject.hostname;
+	const path = urlObject.pathname;
+	const hash = urlObject.hash;
+	const query = urlObject.search;
+
+	// Saving to the specified child elements
+	const message = {
+	  data: {
+	    session_info: {
+	      initial_pageview_info: {
+	        url: {
+	          domain: domain,
+	          path: path,
+	          hash: hash,
+	          query: query
+	        }
+	      }
+	    }
+	  }
+	};
+	
+	console.log(message);
 
 	var transformerName = 'pullReferrerFromCookieTransformer';
 var transformerFn = function(messages) {
