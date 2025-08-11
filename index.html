@@ -31,10 +31,6 @@ heap.load("915807933");
 document.cookie = "OriginLandingURL=https://www2.betsson.gr/en/?testQuery=123#testHash=Test456; path=/; max-age=3600";
 document.cookie = "OriginReferrer=https://www.testReferrer1.com; path=/; max-age=3600";
 
-
-
-
-
 var transformerName = 'pullReferrerFromCookieTransformer';
 var transformerFn = function(messages) {
 
@@ -88,7 +84,9 @@ var transformerFn = function(messages) {
 
             // Event is a user event
             if (message.type === 'meta_user') {
-                message.data.user.initial_pageview_info.session_info.referrer = getCookie("OriginReferrer");
+                if (getCookie("OriginReferrer") != null) {
+                    message.data.user.initial_pageview_info.session_info.referrer = getCookie("OriginReferrer");
+                }
             }
 
             return message;
